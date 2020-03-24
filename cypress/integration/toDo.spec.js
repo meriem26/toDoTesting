@@ -1,8 +1,8 @@
 import {
   addNewTodo,
-  todoListSelector,
-  footerSelector,
-  todoListElement
+  markItemAsCompleted,
+  getFilterByName,
+  assertNumberOfTodos
 } from "../support/pageModels";
 
 describe("To do page", function() {
@@ -14,42 +14,42 @@ describe("To do page", function() {
     cy.title().should("equal", "React • TodoMVC");
   });
 
-  describe("Add new todos", () => {
+  describe("Todos list", () => {
     beforeEach(() => {
       addNewTodo("Go shopping");
       addNewTodo("Call doctor");
       addNewTodo("Have lunch");
     });
 
-    it("Should contain a list of todos", () => {
+    it("should contain a list", () => {
       cy.get(".todo-list").should("be.visible");
     });
 
-    it("Delete an item", () => {
+    it("should allow to delete an item", () => {
       cy.get(".todo-list li:nth-child(2) .destroy").click({ force: true });
-      todoListElement(2);
+      assertNumberOfTodos(2);
     });
 
-    it("Should mark an item as completed", () => {
-      todoListSelector(1);
-      footerSelector(5);
+    it("should allow to mark an item as completed", () => {
+      markItemAsCompleted(1);
+      getFilterByName("Completed");
       cy.get(".selected").should("have.length", 1);
     });
 
-    it("Display only active todos", () => {
-      todoListSelector(2);
+    it("should display only active todos", () => {
+      markItemAsCompleted(2);
 
-      footerSelector(3);
-      todoListElement(2);
+      getFilterByName("Active");
+      assertNumberOfTodos(2);
     });
 
-    it("Display only completed todos", () => {
-      todoListSelector(3);
-      footerSelector(5);
-      todoListElement(1);
+    it("should display only completed todos", () => {
+      markItemAsCompleted(3);
+      getFilterByName("Completed");
+      assertNumberOfTodos(1);
     });
 
-    it("Display the number of the left items", () => {
+    it("should display the number of the left items", () => {
       cy.get(".todo-count").should("contain", 3);
     });
   });
