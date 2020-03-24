@@ -5,12 +5,18 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "cypress":"cypress open",
-    "cypress:ci": "cypress run"
+    "cypress": "cypress open",
+    "cypress:ci": "cypress run",
+    "puppeteer": "jest || exit 0"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "cypress": "^4.2.0"
+    "cypress": "^4.2.0",
+    "jest": "^25.1.0",
+    "jest-puppeteer": "^4.4.0"
+  },
+  "dependencies": {
+    "puppeteer": "^2.1.1"
   }
 }
