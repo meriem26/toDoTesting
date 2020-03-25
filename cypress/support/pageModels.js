@@ -1,11 +1,13 @@
+import * as selectors from "../../helper/selectors";
+
 export const addNewTodo = todo => {
-  cy.get(".new-todo")
+  cy.get(selectors.addNewTodoInput)
     .type(todo)
     .type("{enter}");
 };
 
 export const markItemAsCompleted = num => {
-  cy.get(`.todo-list li:nth-child(${num}) .toggle`).click();
+  cy.get(selectors.completedCheckBox(num)).click();
 };
 
 export const getFilterByName = name => {
@@ -15,5 +17,5 @@ export const getFilterByName = name => {
 };
 
 export const assertNumberOfTodos = num => {
-  cy.get(".todo-list li").should("have.length", num);
+  cy.get(selectors.todosList).should("have.length", num);
 };
