@@ -2,12 +2,12 @@
 // const puppeteer = require("puppeteer");
 // const timeout = 10000;
 
-const addNewTodo= async(todo)=>{
+const addNewTodo = async todo => {
   await page.waitFor(".new-todo");
   await page.focus(".new-todo");
   await page.keyboard.type(`${todo}`);
   await page.keyboard.press("Enter");
-}
+};
 
 beforeAll(async () => {
   await page.goto(TodoMVC, { waitUntil: "domcontentloaded" });
@@ -20,13 +20,21 @@ describe("Main page", () => {
   });
   describe("Todos list", () => {
     beforeEach(async () => {
-    await addNewTodo("Go shopping");
-    await addNewTodo("Go doctor");
-    await addNewTodo("Attend meeting");
+      await addNewTodo("Go shopping");
+      await addNewTodo("Go doctor");
+      await addNewTodo("Attend meeting");
     });
     test("should contain a list", async () => {
       const listInput = await page.$$(".todo-list li");
       expect(listInput).toHaveLength(3);
     });
+  });
+  test("should allow to delete an item", async () => {
+    await page.waitForSelector(".todo-list li:nth-child(2) .destroy");
+    await page.evaluate(() =>
+      document.querySelector(".todo-list li:nth-child(2) .destroy").click()
+    );
+    const listInput = await page.$$(".todo-list li");
+    expect(listInput).toHaveLength(2);
   });
 });
