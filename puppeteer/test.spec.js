@@ -37,4 +37,21 @@ describe("Main page", () => {
     const listInput = await page.$$(".todo-list li");
     expect(listInput).toHaveLength(2);
   });
+  test("should allow to mark an item as completed", async () => {
+    await page.waitForSelector(".todo-list li:nth-child(1) .toggle");
+    await page.evaluate(() =>
+      document.querySelector(".todo-list li:nth-child(1) .toggle").click()
+    );
+    const listInput = await page.$$(".todo-list li");
+    expect(listInput).toHaveLength(2);
+  });
+  test("should display completed list", async () => {
+    await page.waitForSelector(".footer ul li:nth-child(5) > a");
+    await page.evaluate(() =>
+      document.querySelector(".footer ul li:nth-child(5) > a").click()
+    );
+    const listInput = await page.$$(".todo-list li");
+    expect(listInput).toHaveLength(1);
+  });
 });
+//to do next check how to click on the completed button and get the completed element
