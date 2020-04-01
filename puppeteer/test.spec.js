@@ -42,8 +42,8 @@ describe("Main page", () => {
     await page.evaluate(() =>
       document.querySelector(".todo-list li:nth-child(1) .toggle").click()
     );
-    const listInput = await page.$$(".todo-list li");
-    expect(listInput).toHaveLength(2);
+    const listInput = await page.$$(".todo-list li.completed");
+    expect(listInput).toHaveLength(1);
   });
   test("should display completed list", async () => {
     await page.waitForSelector(".footer ul li:nth-child(5) > a");
@@ -53,5 +53,21 @@ describe("Main page", () => {
     const listInput = await page.$$(".todo-list li");
     expect(listInput).toHaveLength(1);
   });
+  test("should display only active todos", async () => {
+    await page.waitForSelector(".footer ul li:nth-child(3) > a");
+    await page.evaluate(() =>
+      document.querySelector(".footer ul li:nth-child(3) > a").click()
+    );
+    const listInput = await page.$$(".todo-list li");
+    expect(listInput).toHaveLength(1);
+  });
+  test("should display the number of the items left", async () => {
+    const itemsLeft = await page.waitForSelector(".footer span");
+    const html = await page.evaluate(
+      itemsLeft => itemsLeft.innerText,
+      itemsLeft
+    );
+    console.log(html);
+    expect(html).toMatch("1 item left");
+  });
 });
-//to do next check how to click on the completed button and get the completed element

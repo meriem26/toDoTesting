@@ -49,7 +49,7 @@ describe("To do page", function() {
       assertNumberOfTodos(1);
     });
 
-    it("should display the number of the left items", () => {
+    it("should display the number of the items left", () => {
       cy.get(".todo-count").should("contain", 3);
     });
   });
