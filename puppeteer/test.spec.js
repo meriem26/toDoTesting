@@ -1,6 +1,4 @@
 import * as selectors from "../helper/selectors";
-// const puppeteer = require("puppeteer");
-// const timeout = 10000;
 
 const addNewTodo = async todo => {
   await page.waitFor(".new-todo");
